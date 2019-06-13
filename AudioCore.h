@@ -20,6 +20,7 @@ class AudioCoreClass
 	 static void setupMixer(AudioMixer4& mixer, float gain);	 
  public:	
 	AudioCoreClass();
+	static void prepareLooperLayers();
 
 	static void init();
 	//static void setReverbRoom(float damping, float roomsize);
@@ -49,14 +50,20 @@ class AudioCoreClass
 	static bool wavIsPlaying();	
 	static String getRecordFileName(String prefix, uint8_t songNum, uint16_t version);
 	static uint16_t getMaxRecordedTracks(uint8_t songNum);
+	static void startRecording();
+	static void continueRecording();
 	static void stopRecording();
-	
+	static void startPlaying();
+	static void continuePlaying();
+	static void stopPlaying();
+
 	static void playWav(const char *song);
 	static void playRawDrum(const char *song, float gain, uint8_t channel);
 	static void loadRaw(const char* song);
 	static void stopWav();
 
 	static void playLastRecorderInputRaw();
+	static int mode;
 
 
 };

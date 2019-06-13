@@ -411,6 +411,7 @@ void EngineClass::init()
 	{
 		initSerialFlashToDo();
 	}
+	AudioCore.prepareLooperLayers();
 
 
 	SPI.callback = spiShotsHandler;
@@ -732,6 +733,16 @@ void EngineClass::update()
 		_nextUpdateTick =_hardwareTimer + 100;
 		
 	}
+
+	// If we're playing or recording, carry on...
+	if (AudioCore.mode == 1) {
+		AudioCore.continueRecording();
+	}
+	if (AudioCore.mode == 2) {
+		AudioCore.continuePlaying();
+	}
+
+
 	//AudioCore.continueRecording();
 }
 

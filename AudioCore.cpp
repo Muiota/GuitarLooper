@@ -41,6 +41,18 @@ float WAVESHAPE_EXAMPLE[17] = {
 #include <SD.h>
 #include <SerialFlash.h>
 
+#include <Audio.h>
+#include <i2c_t3.h>
+#include <SPI.h>
+#include <SD.h>
+#include <SerialFlash.h>
+
+#include <Audio.h>
+#include <i2c_t3.h>
+#include <SPI.h>
+#include <SD.h>
+#include <SerialFlash.h>
+
 // GUItool: begin automatically generated code
 AudioPlaySdWav           playSdWavA;     //xy=66.5,1820.4452514648438
 AudioInputI2S            audioInput;     //xy=105.22221374511719,2865.5556640625
@@ -54,7 +66,9 @@ AudioSynthKarplusStrong  fm;        //xy=400,2324.2855224609375
 AudioSynthKarplusStrong  bass;        //xy=402.22235107421875,2177.778076171875
 AudioAnalyzePeak         peakLooperL;       //xy=453.5555419921875,1796.6669921875
 AudioAnalyzePeak         peakLooperR;       //xy=453.5556640625,1841.4447326660156
+AudioRecordQueue         queueRecL;         //xy=513,2762
 AudioEffectWaveshaper    waveShapeInputR; //xy=524.6666259765625,2896.55615234375
+AudioRecordQueue         queueRecR;         //xy=533,3029
 AudioFilterBiquad        biquadBass;        //xy=562.8571428571428,2138.5714285714284
 AudioFilterBiquad        biquadFm;        //xy=581.4285714285713,2365.7142857142853
 AudioFilterBiquad        biquadPiano;        //xy=590,2308.5714285714284
@@ -69,6 +83,8 @@ AudioSynthSimpleDrum     drum4;          //xy=729.7779541015625,1758.55541992187
 AudioSynthSimpleDrum     drum3;          //xy=730.8888244628906,1713.4446411132812
 AudioSynthSimpleDrum     drum2;          //xy=733.4442749023438,1676.0000915527344
 AudioSynthSimpleDrum     drum1;          //xy=734.333251953125,1632.6670532226562
+AudioPlaySerialflashRaw  playALooperL;  //xy=759,2602
+AudioPlaySerialflashRaw  playALooperR;  //xy=760,2563
 AudioAmplifier           drumVelocity4;           //xy=821,1505
 AudioAmplifier           drumVelocity3;           //xy=822,1466
 AudioAmplifier           drumVelocity2;           //xy=823,1431
@@ -102,16 +118,16 @@ AudioConnection          patchCord6(biquadLooperAL, peakLooperL);
 AudioConnection          patchCord7(biquadLooperAR, 0, mixerGroupR0, 3);
 AudioConnection          patchCord8(biquadLooperAR, peakLooperR);
 AudioConnection          patchCord9(noiseGateR, waveShapeInputR);
-AudioConnection          patchCord10(noiseGateL, biquadInputL);
-AudioConnection          patchCord11(string, biquadString);
-AudioConnection          patchCord12(piano, biquadPiano);
-AudioConnection          patchCord13(fm, biquadFm);
-AudioConnection          patchCord14(bass, biquadBass);
-AudioConnection          patchCord15(waveShapeInputR, biquadInputR);
-AudioConnection          patchCord16(biquadBass, 0, mixerGroupL1, 1);
-AudioConnection          patchCord17(biquadBass, 0, mixerGroupR1, 1);
-AudioConnection          patchCord18(biquadFm, 0, mixerGroupL2, 0);
-AudioConnection          patchCord19(biquadFm, 0, mixerGroupR2, 0);
+AudioConnection          patchCord10(noiseGateR, queueRecR);
+AudioConnection          patchCord11(noiseGateL, biquadInputL);
+AudioConnection          patchCord12(noiseGateL, queueRecL);
+AudioConnection          patchCord13(string, biquadString);
+AudioConnection          patchCord14(piano, biquadPiano);
+AudioConnection          patchCord15(fm, biquadFm);
+AudioConnection          patchCord16(bass, biquadBass);
+AudioConnection          patchCord17(waveShapeInputR, biquadInputR);
+AudioConnection          patchCord18(biquadBass, 0, mixerGroupL1, 1);
+AudioConnection          patchCord19(biquadBass, 0, mixerGroupR1, 1);
 AudioConnection          patchCord20(biquadPiano, 0, mixerGroupL1, 3);
 AudioConnection          patchCord21(biquadPiano, 0, mixerGroupR1, 3);
 AudioConnection          patchCord22(biquadString, 0, mixerGroupL1, 2);
@@ -131,31 +147,34 @@ AudioConnection          patchCord35(drum4, 0, mixerDrums, 7);
 AudioConnection          patchCord36(drum3, 0, mixerDrums, 6);
 AudioConnection          patchCord37(drum2, 0, mixerDrums, 5);
 AudioConnection          patchCord38(drum1, 0, mixerDrums, 4);
-AudioConnection          patchCord39(drumVelocity4, 0, mixerDrums, 3);
-AudioConnection          patchCord40(drumVelocity3, 0, mixerDrums, 2);
-AudioConnection          patchCord41(drumVelocity2, 0, mixerDrums, 1);
-AudioConnection          patchCord42(drumVelocity1, 0, mixerDrums, 0);
-AudioConnection          patchCord43(mixerDrums, peakAudio01);
-AudioConnection          patchCord44(mixerDrums, biquadDrums);
-AudioConnection          patchCord45(biquadfreeverbs, fxfreeverbs);
-AudioConnection          patchCord46(fxfreeverbs, 0, mixerGroupL1, 0);
-AudioConnection          patchCord47(fxfreeverbs, 0, peakfreeverbsL, 0);
-AudioConnection          patchCord48(fxfreeverbs, 1, mixerGroupR1, 0);
-AudioConnection          patchCord49(fxfreeverbs, 1, peakfreeverbsR, 0);
-AudioConnection          patchCord50(biquadDrums, 0, mixerGroupL0, 2);
-AudioConnection          patchCord51(biquadDrums, 0, mixerGroupR0, 2);
-AudioConnection          patchCord52(mixerGroupL0, 0, masterMixerL, 0);
-AudioConnection          patchCord53(mixerGroupL1, 0, masterMixerL, 1);
-AudioConnection          patchCord54(mixerGroupL2, 0, masterMixerL, 2);
-AudioConnection          patchCord55(mixerGroupR0, 0, masterMixerR, 0);
-AudioConnection          patchCord56(mixerGroupR1, 0, masterMixerR, 1);
-AudioConnection          patchCord57(mixerGroupR2, 0, masterMixerR, 2);
-AudioConnection          patchCord58(masterMixerL, 0, audioOutput, 0);
-AudioConnection          patchCord59(masterMixerL, peakAudioOutputL);
-AudioConnection          patchCord60(masterMixerR, 0, audioOutput, 1);
-AudioConnection          patchCord61(masterMixerR, peakAudioOutputR);
+AudioConnection          patchCord39(playALooperL, 0, mixerGroupR2, 0);
+AudioConnection          patchCord40(playALooperR, 0, mixerGroupL2, 0);
+AudioConnection          patchCord41(drumVelocity4, 0, mixerDrums, 3);
+AudioConnection          patchCord42(drumVelocity3, 0, mixerDrums, 2);
+AudioConnection          patchCord43(drumVelocity2, 0, mixerDrums, 1);
+AudioConnection          patchCord44(drumVelocity1, 0, mixerDrums, 0);
+AudioConnection          patchCord45(mixerDrums, peakAudio01);
+AudioConnection          patchCord46(mixerDrums, biquadDrums);
+AudioConnection          patchCord47(biquadfreeverbs, fxfreeverbs);
+AudioConnection          patchCord48(fxfreeverbs, 0, mixerGroupL1, 0);
+AudioConnection          patchCord49(fxfreeverbs, 0, peakfreeverbsL, 0);
+AudioConnection          patchCord50(fxfreeverbs, 1, mixerGroupR1, 0);
+AudioConnection          patchCord51(fxfreeverbs, 1, peakfreeverbsR, 0);
+AudioConnection          patchCord52(biquadDrums, 0, mixerGroupL0, 2);
+AudioConnection          patchCord53(biquadDrums, 0, mixerGroupR0, 2);
+AudioConnection          patchCord54(mixerGroupL0, 0, masterMixerL, 0);
+AudioConnection          patchCord55(mixerGroupL1, 0, masterMixerL, 1);
+AudioConnection          patchCord56(mixerGroupL2, 0, masterMixerL, 2);
+AudioConnection          patchCord57(mixerGroupR0, 0, masterMixerR, 0);
+AudioConnection          patchCord58(mixerGroupR1, 0, masterMixerR, 1);
+AudioConnection          patchCord59(mixerGroupR2, 0, masterMixerR, 2);
+AudioConnection          patchCord60(masterMixerL, 0, audioOutput, 0);
+AudioConnection          patchCord61(masterMixerL, peakAudioOutputL);
+AudioConnection          patchCord62(masterMixerR, 0, audioOutput, 1);
+AudioConnection          patchCord63(masterMixerR, peakAudioOutputR);
 AudioControlSGTL5000     audioShield;    //xy=1905.33349609375,2532.444580078125
 // GUItool: end automatically generated code
+
 
 
 
@@ -167,6 +186,8 @@ AudioCoreClass::AudioCoreClass()
 
 
 }
+
+
 
 void AudioCoreClass::setupMixer(AudioMixer4& mixer, float gain)
 {
@@ -180,7 +201,7 @@ void AudioCoreClass::init()
 {
 	
 	// audio library init
-	AudioMemory(60);
+	AudioMemory(128);
 
 	//next = millis() + 1000;
 
@@ -699,23 +720,104 @@ uint16_t AudioCoreClass::getMaxRecordedTracks(uint8_t songNum) {
 }
 
 
-void AudioCoreClass::stopRecording() {
-	Serial.println("StopRecording");
-//	queueRecordL.end();
-	/*queueRecordR.end();
-	// flush buffer
-	while ( queueRecordR.available() > 0) {
-	//	queueRecordL.readBuffer();
-	//	queueRecordL.freeBuffer();
-		queueRecordR.readBuffer();
-		queueRecordR.freeBuffer();
+SerialFlashFile frec;
+
+uint32_t lastAddr = 0;
+uint32_t filePosition = 0;
+uint32_t lastBlock = 0;
+
+
+void AudioCoreClass::prepareLooperLayers()
+{
+	if (!SerialFlash.exists("RECORD_A_L.RAW"))
+	{
+		bool result = SerialFlash.createErasable("RECORD_A_L.RAW", 4194304);
+		if (result)
+		{
+			Serial.println("createErasable");
+		}
 	}
-	_fileRec.close(); // close file	
-	_recorderStatus = RECORD_STATUS_NONE;
-	*/
+	frec = SerialFlash.open("RECORD_A_L.RAW");
+	Serial.print("blockSize ");
+	Serial.println(SerialFlash.blockSize());
+	lastAddr = static_cast<uint32_t>(frec.getFlashAddress());
+}
+
+void AudioCoreClass::startRecording() {
+
+	Serial.println("startRecording");
+
+	filePosition = SerialFlash.blockSize() / 2;
+	lastBlock = 0;
+		
+	if (frec) {
+		frec.seek(256);
+		Serial.println(lastAddr);	
+		Serial.println("open");		
+		queueRecL.begin();		
+		mode = 1;
+	}
+}
+
+void AudioCoreClass::continueRecording() {
+	if (lastAddr > 0)
+	{
+		if (filePosition >= lastBlock)
+		{
+			SerialFlash.eraseBlock(lastAddr + lastBlock);
+			Serial.print("o");
+			lastBlock += SerialFlash.blockSize();
+			return;
+		}	
+	}
+
+
+	while (queueRecL.available() > 2) {		
+		frec.write(reinterpret_cast<byte*>(queueRecL.readBuffer()), 256);		
+		Serial.print(".");
+		filePosition += 256;
+		queueRecL.freeBuffer();
+	}
+}
+
+void AudioCoreClass::stopRecording() {
+	Serial.println("stopRecording");
+	queueRecL.end();
+	if (mode == 1) {
+		while (queueRecL.available() > 0) {
+			frec.write(reinterpret_cast<byte*>(queueRecL.readBuffer()), 256);
+			Serial.print(".");
+			queueRecL.freeBuffer();
+		}
+		//frec.close();
+	}
+	mode = 0;
 }
 
 
-AudioCoreClass AudioCore;
+void AudioCoreClass::startPlaying() {
+	Serial.println("startPlaying");
+	bool res = playALooperL.play("RECORD_A_L.RAW");
+	Serial.print(" ");
+	Serial.println(res);
+	mode = 2;
+}
 
+void AudioCoreClass::continuePlaying() {
+	if (!playALooperL.isPlaying()) {
+		playALooperL.stop();
+		Serial.println("auto stop loop");
+		mode = 0;
+	}
+}
+
+void AudioCoreClass::stopPlaying() {
+	Serial.println("stopPlaying");
+	if (mode == 2) playALooperL.stop();
+	mode = 0;
+}
+
+int AudioCoreClass::mode = 0;
+
+AudioCoreClass AudioCore;
 

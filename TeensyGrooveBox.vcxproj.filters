@@ -72,6 +72,12 @@
     <ClInclude Include="LooperChannel.h">
       <Filter>Header Files\Channels</Filter>
     </ClInclude>
+    <ClInclude Include="SequencerClass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="__vm\.GuitarLooper.vsarduino.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AudioCore.cpp">
@@ -115,6 +121,9 @@
     </ClCompile>
     <ClCompile Include="LooperChannel.cpp">
       <Filter>Source Files\Channels</Filter>
+    </ClCompile>
+    <ClCompile Include="SequencerClass.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

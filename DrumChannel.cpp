@@ -66,8 +66,38 @@ void DrumChannelClass::handle()
 const char* const string = "BD_01.RAW";
 const char* const string2 = "SN_01.RAW";
 const char* const string3 = "CL_HH_01.RAW";
+
+uint8_t timer = 0;
+
 void DrumChannelClass::midiUpdate()
 {
+
+	if (Engine.songSettings.pattern.currentStep == 0)
+	{
+		if (AudioCore.mode == 0)
+		{
+			AudioCore.startRecording();
+			timer = 0;
+		}
+		else if (AudioCore.mode == 1)
+		{
+			timer++;
+			if (timer >= 4)
+			{
+				AudioCore.stopRecording();
+				AudioCore.startPlaying();
+				timer = 0;
+			}
+		} else if (AudioCore.mode == 2)
+		{
+			timer++;
+			if (timer >= 4)
+			{
+				AudioCore.stopPlaying();
+			}
+		}
+	}
+
 
 	volatile uint8_t* drums = currentDrumPattern->shots[Engine.songSettings.pattern.currentStep];
 	if (drums[0] > 0)
